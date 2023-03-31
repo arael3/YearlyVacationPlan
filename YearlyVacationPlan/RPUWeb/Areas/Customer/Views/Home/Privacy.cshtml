@@ -1,0 +1,69 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Polityka prywatności";
+}
+<h1>@ViewData["Title"]</h1>
+<br />
+
+
+<h3>Wstęp</h3>
+<p>Poniższa Polityka prywatności określa zasady funkcjonowania Aplikacji internetowej @Configuration["ApplicationInfo:Domain"].</p>
+<h4>Definicje</h4>
+<ol>
+    <li>Aplikacja - @Configuration["ApplicationInfo:Domain"] to aplikacja internetowa umożliwiająca tworzenie użytkownikom rocznych planów urlopowych, wysyłanie zaproszeń znajomym / współpracownikom, aby mogli mieć wgląd do swoich planów na wybrany rok oraz wysyłająca mailowe powiadamiania o zbliżających się urlopach.</li>
+    <li>Użytkownik - osoba korzystająca z Aplikacji za pośrednictwem sieci Internet.</li>
+    <li>Urządzenie Końcowe - urządzenie używane przez Użytkownika do korzystania z Aplikacji (np. komputer, tablet, smartfon i inne).</li>
+</ol>
+<p>Aplikacja internetowa @Configuration["ApplicationInfo:Domain"] umozliwia użytkownikom tworzenie rocznych planów urlopowych. Administratorzyzy Aplikacji dokładają starań, aby Aplikacja działała poprawnie, ponieważ zależy nam na zadowoleniu i zaufaniu użytkownikowników naszej Aplikacji. Mylić się jest rzeczą ludzką, dlatego przepraszamy za ewentualne błędy. Administratorzy Aplikacji nie ponoszą odpowiedzialności za ewentualne błędy lub braki w zamieszczonych informacjach, ani za rezultaty działań podjętych na podstawie treści publikowanych w Aplikacji.</p>
+
+
+<h3>Jakie dane osobowe zbieramy</h3>
+
+
+<p><span>Dane osobowe (lub dane) to wszelkie informacje dotyczące użytkownika, które samodzielnie lub w połączeniu z innymi informacjami umożliwiają osobie zbierającej i przetwarzającej takie informacje identyfikację użytkownika jako osoby fizycznej. Może to być Twoje imię i nazwisko, adres, dane dotyczące Twojej lokalizacji lub informacje związane z Twoją fizyczną, fizjologiczną, genetyczną, psychiczną, ekonomiczną, kulturową lub społeczną tożsamością. Dane osobowe zgodnie z unijnym rozporządzeniem o ochronie danych osobowych (RODO) obejmują również takie informacje techniczne, jak adres kontroli dostępu do mediów (adresy MAC), międzynarodowy identyfikator urządzenia mobilnego (IMEI), unikalny identyfikator urządzenia (UDID), tożsamość reklamodawców (IDFA) ), adres protokołu internetowego (adres IP), informacje o przeglądarce i systemie.</span></p>
+<p><span>Przetwarzanie danych osobowych oznacza na przykład zbieranie, utrwalanie, organizowanie, porządkowanie, przechowywanie, wykorzystywanie, ujawnianie w jakikolwiek sposób itp.</span></p>
+
+<p><span>Jeżeli odwiedzasz naszą Aplikację anonimowo, nadal zbieramy niektóre Twoje dane osobowe (dane konfiguracyjne), gdy nam je dobrowolnie przekażesz lub z wykorzystaniem plików cookies i innych podobnych technologii.</span></p>
+<p><span>Jeśli zdecydujesz się zalogować w naszej Aplikacji, oprócz danych, które zbieramy od anonimowych użytkowników, przetwarzane będą następujące kategorie danych dla Ciebie i w Twoim imieniu:</span></p>
+<p><strong><span>"Dane konta"</span></strong><br /><span>Podczas logowania w naszej Aplikacji zbierane są podstawowe dane kontaktowe: adres e-mail. Hasło do konta jest szyfrowane i w takiej postaci przechowywane w bazie Aplikacji. Aplikacja korzysta także z zewnętrznych dostawców OAuth. Nie ponosimy żadnej odpowiedzialności w przypadku, gdy takie strony trzecie zbierają, wykorzystują lub udostępniają jakiekolwiek informacje o Tobie z naruszeniem ich własnej polityki prywatności, naszej umowy z nimi (jeśli taka istnieje) lub jakichkolwiek innych obowiązujących praw, zasad lub przepisów.</span></p>
+<p><span>Gdy logujesz się za pośrednictwem konta strony trzeciej, takiej jak Google lub podobne usługi, wyrażasz zgodę na pobranie z takiego konta Twojego adresu e-mail lub innych informacji, które są wyraźnie wskazane podczas logowania za ich pomocą. Prosimy o zwrócenie uwagi na opis przy wyrażaniu zgody na takie logowanie.</span></p>
+<p><span>Aplikacja przetwarza: </span></p>
+<ol>
+    <li>Przekazywane przez Użytkownika w rocznych planach urlopowych daty urlopów.</li>
+    <li>Listę zaproszeń do współdzielenia rocznych planów urlopowych wysłanych przez oraz do Użytkownika, wraz z informacją czy zaproszenie zostało zaakceptowane.</li>
+</ol>
+<p><strong><span>"Dane logowania"</span></strong><br /><span>Aby zalogować się na stronie, musisz wyrazić zgodę na niniejszą Politykę prywatności.</span></p>
+<p><span>Po zalogowaniu otrzymujesz token kryptograficzny, który służy zarówno jako dowód Twojej zgody, jak i autoryzacji. Ten token jest przechowywany w Twoim pliku cookie i wysyłany z każdym żądaniem Twojej przeglądarki do Aplikacji.</span></p>
+
+@*<p>W Aplikacji zamieszczane są reklamy. W celu wyświetlania reklam w trakcie Twojej wizyty w naszej witrynie korzystamy z usług zewnętrznych firm (dostawców) reklamowych. Dostawcy zewnętrzni, w tym Google, używają plików cookie (ciasteczek) do wyświetlania reklam na podstawie poprzednich odwiedzin użytkownika w Aplikacji lub w innych witrynach.</p>
+<p>Pliki cookie do wyświetlania reklam umożliwiają firmie Google i jej partnerom wyświetlanie użytkownikom konkretnych reklam na podstawie ich odwiedzin na tej witrynie i/lub innych witrynach internetowach.</p>
+<p>Użytkownicy mogą zrezygnować ze spersonalizowanych reklam w <a href="https://www.google.com/settings/ads">Ustawieniach reklam</a>. Użytkownicy mogą też zrezygnować z wykorzystywania plików cookie innych firm do wyświetlania spersonalizowanych reklam. Wystarczy wejść na stronę <a href="http://www.aboutads.info/choices/">www.aboutads.info</a>.</p>
+<p>Niniejsza Aplikacja korzysta z Google Analytics, usługi analizy oglądalności stron internetowach udostępnianej przez Google LLC ("Google"). Google Analytics używa "cookies", czyli plików tekstowych umieszczanych na komputerze Użytkownika w celu umożliwienia witrynie przeanalizowania sposobu, w jaki Użytkownicy z niej korzystają. Informacje generowane przez cookie na temat korzystania z witryny przez Użytkownika (włącznie z jego adresem IP) będą przekazywane Google i przechowywane przez nią na serwerach. Google będzie korzystała z tych informacji w celu oceny korzystania z witryny przez Użytkownika, tworzenia raportów dotyczących ruchu na stronach dla operatorów witryn oraz świadczenia innych usług związanych z ruchem na witrynach internetowach i korzystaniem z internetu. Google może również przekazywać te informacje osobom trzecim, jeżeli będzie zobowiązana to uczynić na podstawie przepisów prawa lub w przypadku, gdy osoby te przetwarzają takie informacje w imieniu Google. Google nie będzie łączyła adresu IP Użytkownika z żadnymi innymi danymi będącymi w jej posiadaniu.</p>
+<p>Użytkownik może zrezygnować z cookies wybierając odpowiednie ustawienia na przeglądarce. Więcej informacji można znaleźć na stronie <a title="Centrum ochrony prywatności Google" href="http://www.google.pl/intl/pl/analytics/privacyoverview.html">Centrum ochrony prywatności Google</a></p>
+<p>Możliwe jest również skorzystanie z <a href="https://tools.google.com/dlpage/gaoptout/" rel="nofollow">dodatku do przeglądarki</a> służącego blokowaniu Google Analytics.</p>*@
+
+<h4>Jakiego rodzaju pliki "cookies" są stosowane?</h4>
+<p>Na stronach Aplikacji mogą być używane dwa rodzaje plików "cookies":</p>
+<ul>
+    <li>sesyjne - pozostają na urządzeniu Użytkownika, aż do opuszczenia strony internetowej lub wyłączenia oprogramowania (przeglądarki internetowej);</li>
+    <li>stałe - pozostają na urządzeniu Użytkownika przez czas określony w parametrach pliku albo do momentu ich ręcznego usunięcia przez Użytkownika.</li>
+</ul>
+
+<h4>Usuwanie plików "cookies"</h4>
+<p>Oprogramowanie (przeglądarki) służące do wyświetlania stron internetowach domyślnie dopuszcza umieszczanie plików "cookies" na Urządzeniu Końcowym. Ustawienia te mogą zostać zmienione w taki sposób, aby blokować automatyczną obsługę plików "cookies", bądź informować o ich każdorazowym przesłaniu na urządzenie Użytkownika. Szczegółowe informacje o możliwości i sposobach obsługi plików "cookies" dostępne są w ustawieniach oprogramowania (przeglądarki internetowej). Ograniczenie stosowania plików "cookies", może wpłynąć na niektóre funkcjonalności Aplikacji.</p>
+
+
+<h3>Do czego wykorzystujemy Twoje dane osobowe</h3>
+<p>Gromadzimy i przetwarzamy dane osobowe w celu świadczenia Ci wszelkich niezbędnych usług w ramach naszej Aplikacji. W szczególności gromadzimy i przetwarzamy różnego rodzaju dane w następujących celach:</p>
+<p>„Dane konta”: aby świadczyć Ci nasze podstawowe usługi, tworzyć i utrzymywać Twoje konto, komunikować się z Tobą na Twoją prośbę, identyfikować Cię jako Użytkownika;</p>
+<p>„Dane zwrotne”: w celu świadczenia usług wsparcia użytkownika (np. dostarczania pełnych i dokładnych informacji dotyczących Twojej prośby), ulepszania naszej Aplikacji;</p>
+<p>„Dane logowania”: aby umożliwić Ci bezpieczne logowanie w Aplikacji.</p>
+<p>Jeśli w dowolnym momencie chcesz przestać udostępniać swoje dane, możesz je usunąć po zalogowaniu, klikając na przycisk „Usuń konto” w karcie profilu i ostatecznie klikając przycisk "Usuń konto oraz powiązane z nim dane" po uwczesnym wprowadzeniu poprawnego hasła do konta lub kontaktując się z nami pod adresem: urlop.kontakt@gmail.com</p>
+
+
+<h3>Jak się z nami skontaktować</h3>
+<p>Chcemy żeby nasza Aplikacja spełniała oczekiwania Użytkowników, dlatego jesteśmy otwarci na sugestie i uwagi. Wszelkie sugestie, informacje o błędach, uwagi prosimy kierować poprzez pocztę elektroniczną na adres urlop.kontakt@gmail.com</p>
+<p>Dane zbierane w trakcie korespondencji pomiędzy Tobą, a naszą Aplikacją będą wykorzystane wyłącznie w celu odpowiedzi na Twoje zapytanie.</p>
+<p>Administratorzy Aplikacji nie ponoszą odpowiedzialności za ewentualne błędy w zamieszczonych w Aplikacji informacjach.</p>

@@ -1,0 +1,52 @@
+﻿@using RPU.Models.ViewModels;
+@model IEnumerable<SharedVacationPlanVM>
+@{
+    ViewData["Title"] = "Oczekujące zaproszenia";
+}
+
+<h1 class="text-primary mb-4">Oczekujące zaproszenia</h1>
+
+@if (Model.Count() == 0)
+{ 
+    <p>Brak zaproszeń</p>
+}
+else 
+{
+    <table class="table table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th class="px-4">
+                    <p class="my-0">Rok</p>
+                </th>
+                <th class="px-4">
+                    <p class="my-0">Użytkownik</p>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sharedVacationPlanVM in Model)
+            {
+                <tr>
+                    <td width="20%" class="p-4 align-middle">
+                        <p class="my-0">@sharedVacationPlanVM.SharedVacationPlan.SharedVacationPlanYear</p>
+                    </td>
+                    <td width="40%" class="p-4 align-middle">
+                        <p class="my-0">@sharedVacationPlanVM.SenderApplicationUsername</p>
+                    </td>
+                    <td width="40%" class="p-4 align-middle text-end">
+                        <form method="post">
+                            <div class="btn-group" role="group">
+                                <a onclick=updateSharedVacationPlan('/Customer/SharedVacationPlan/StatusUpdateAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-success"><i class="bi bi-pencil-square"></i> &nbsp; Zaakceptuj</a>
+                                <a onclick=deleteItem('/Customer/SharedVacationPlan/DeleteAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-danger"><i class="bi bi-trash3"></i> &nbsp; Odrzuć</a>
+
+                            </div>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

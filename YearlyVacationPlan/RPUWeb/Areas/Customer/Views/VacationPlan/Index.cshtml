@@ -1,0 +1,46 @@
+﻿@using RPU.Utility
+@{
+    ViewData["Title"] = "Lista planów urlopowych";
+}
+
+
+@{
+    // Ustawienie daty początkowej na 1 stycznia bieżącego roku
+    var currentDate = new DateTime(DateTime.Now.Year, 1, 1);
+    var isAdmin = User.IsInRole(SD.Role_Admin) ? 1 : 0;
+}
+
+<div id="is-admin" data-is-admin="@isAdmin"></div>
+
+<div class="row mb-5">
+    <div class="col-6">
+        <h1 class="text-primary">Lista planów urlopowych</h1>
+    </div>
+    <div class="col-6 text-end">
+        <a onclick="createVacationPlan()" class="btn btn-primary
+            @if (!ViewBag.AllowForCreateVacationPlan) { <text>disabled</text>} "><i class="bi bi-plus-square"></i> &nbsp; Utwórz nowy plan</a>
+    </div>
+</div>
+
+<table id="tblData" class="table table-bordered table-striped" style="width: 100%">
+    <thead>
+        <tr>
+            @*Jeżeli zalogowany użytkownik jest adminem, pokaż kolumnę Użytkownik*@
+            @if (isAdmin == 1)
+            {
+                <th>Użytkownik</th>
+            }
+            <th>Rok</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+
+<form id="create-vacation-plan" method="post" asp-area="Customer" asp-controller="VacationPlan" asp-action="Create" class="d-none">
+    <input type="text" id="vacation-plan-year" name="year" hidden />
+</form>
+
+@section Scripts {
+    <script src="~/js/vacationPlan.js"></script>
+}

@@ -1,0 +1,172 @@
+﻿@using System.Globalization
+@using RPU.Utility
+@model RPU.Models.ViewModels.YearlyHolidayScheduleVM
+
+@{
+    ViewData["Title"] = "Calendar";
+
+    // Ustaw datę początkową na pierwszy dzień stycznia bieżącego roku
+    var startDate = Model.YearlyHolidaySchedule.Year == 0 ? new DateTime(DateTime.Now.Year, 1, 1) : new DateTime(Model.YearlyHolidaySchedule.Year, 1, 1);
+}
+
+<h1>Roczny harmonogram świąt</h1>
+
+
+<form id="form" method="post" asp-action="Upsert">
+    <input asp-for="YearlyHolidaySchedule.Id" hidden />
+    <textarea id="holiday-schedule" asp-for="YearlyHolidaySchedule.HolidaySchedule" hidden></textarea>
+    <div class="row">
+        <div class="col-3 pt-3" style="background-color: rgba(255, 255, 55, 0.1);">
+            @if (Model.YearlyHolidaySchedule.Id != 0)
+            {
+                <div class="mb-3">
+                <label asp-for="YearlyHolidaySchedule.Year"></label>
+                <input asp-for="YearlyHolidaySchedule.Year" readonly />
+                <span asp-validation-for="YearlyHolidaySchedule.Year" class="text-danger"></span>
+                </div>
+            }
+            else 
+            {
+                <div class="mb-3">
+                <label asp-for="YearlyHolidaySchedule.Year"></label>
+                <input asp-for="YearlyHolidaySchedule.Year" value="@DateTime.Now.Year"/>
+                <span asp-validation-for="YearlyHolidaySchedule.Year" class="text-danger"></span>
+                </div>
+            }
+            
+            <div class="mb-3">
+                @if (Model.YearlyHolidaySchedule.Id != 0)
+                {
+                    <div class="mb-3">
+                    <button type="submit" id="submit-button" class="btn btn-primary" style="width: 150px">Zapisz</button>
+                    </div>
+                    <div class="mb-3">
+                    <button type="submit" asp-action="Delete" class="btn btn-danger" style="width: 150px">Usuń</button>
+                    </div>
+                }
+                else
+                {
+                    <button type="submit" id="submit-button" class="btn btn-primary" style="width: 150px">Ustaw rok</button>
+                }
+            </div>
+
+    </div>
+    <div class="col-9 pt-3" style="background-color: rgba(55, 255, 255, 0.1);">
+
+@if (Model.YearlyHolidaySchedule.Year != 0)
+{           
+    @for (var month = 1; month <= 12; month++)
+    {
+        // Ustaw datę początkową na pierwszy dzień bieżącego miesiąca
+        var monthStartDate = new DateTime(startDate.Year, month, 1);
+
+        // Ustaw datę końcową na ostatni dzień bieżącego miesiąca
+        var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+
+            <div style="max-width: 29%; display: inline-block; margin: 0 62px 40px 0;">
+
+            <h2>@monthStartDate.ToString("MMMM")</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pn</th><th>Wt</th><th>Śr</th><th>Cz</th><th>Pt</th><th>So</th><th>Nd</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (monthStartDate.DayOfWeek != DayOfWeek.Monday)
+                {
+                        @:<tr>
+                    int numberOfDayOfWeek = (int)monthStartDate.DayOfWeek == 0 ? 7 : (int)monthStartDate.DayOfWeek;  // Changes the value for Sunday from 0 to 7
+                        @for (var i = 1; i < numberOfDayOfWeek; i++)
+                    {
+                            <td></td>
+                    }
+                }
+
+                    @for (var day = monthStartDate; day <= monthEndDate; day = day.AddDays(1))
+                {
+                    if (day.DayOfWeek == DayOfWeek.Monday)
+                    {
+                            @:<tr>
+                    }
+
+                    if (Model.YearlyHolidaySchedule.Id != 0)
+                    {
+                        if (Model.YearlyHolidayScheduleDaysList.Contains(day))
+                        {
+                                <td>
+                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@day" checked>
+                                    <label for="@day.Day">@day.Day</label>
+                                </td>
+                        }
+                        else
+                        {
+                                <td>
+                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@day">
+                                    <label for="@day.Day">@day.Day</label>
+                                </td>
+                        }
+                    }
+                    else
+                    {
+                            <td>
+                                <input type="checkbox" id="@day.Day" name="@day.Day" value="@day">
+                                <label for="@day.Day">@day.Day</label>
+                            </td>
+                    }
+
+                    if (day.DayOfWeek == DayOfWeek.Sunday && day != monthEndDate)
+                    {
+                            @:</tr>
+                    }
+                }
+
+                    @if (monthEndDate.DayOfWeek != DayOfWeek.Sunday)
+                {
+                        @for (var i = (int)monthEndDate.DayOfWeek + 1; i <= 7; i++)
+                    {
+                            <td></td>
+                    }
+                        @:</tr>
+                }
+                </tbody>
+            </table>
+            </div>
+        if (month == 3 || month == 6 || month == 9)
+        {
+                <br>
+        }
+    }
+}
+                
+            </div>
+        </div>
+    </form>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script>
+        $(document).ready(function () {
+            const submitButton = $("#submit-button");
+            const form = $("#form");
+            submitButton.on("click", function (event) {
+                event.preventDefault();
+
+                var checkboxes = $("input[type=checkbox]:checked");
+                var values = [];
+
+                checkboxes.each(function(index) {
+                    values.push($(this).val());
+                });
+
+                $('#holiday-schedule').val(values);
+
+                form.submit();
+            });
+        });
+    </script>
+}

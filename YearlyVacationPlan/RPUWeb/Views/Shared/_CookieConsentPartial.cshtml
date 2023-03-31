@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+}
+
+@if (showBanner)
+{
+    <div id="cookie-consent" class="alert alert-info alert-dismissible fade show" role="alert">
+        Witryna <strong>@Configuration["ApplicationInfo:Domain"]</strong> prosi Cię o zgodę na wykorzystanie ciasteczek. <a asp-area="Customer" asp-controller="Home" asp-action="Privacy">Szczegóły</a>.
+        <button type="button" class="btn btn-outline-secondary" style="margin-left: 15px;" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+            <span aria-hidden="true">Akceptuję</span>
+        </button>
+    </div>
+    <script>
+        const cookieConsent = document.getElementById('cookie-consent');
+
+        (function () {
+            var button = document.querySelector("#cookie-consent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+                cookieConsent.style.display = 'none';
+            }, false);
+        })();
+    </script>
+}

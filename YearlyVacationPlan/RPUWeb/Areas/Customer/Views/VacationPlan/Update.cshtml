@@ -1,0 +1,432 @@
+﻿@using System.Globalization
+@using System.ComponentModel.DataAnnotations
+@using RPU.Models.Enums
+@using RPU.Utility
+@using Microsoft.AspNetCore.Html
+@model RPU.Models.ViewModels.VacationPlanVM
+
+@{
+    ViewData["Title"] = "Calendar";
+
+    // Pobierz aktualną datę
+    var currentDate = DateTime.Today;
+
+    // Ustaw datę początkową na pierwszy dzień stycznia bieżącego roku
+    var startDate = new DateTime(currentDate.Year, 1, 1);
+
+    bool isAdmin = User.IsInRole(SD.Role_Admin);
+
+    var deputy1 = Model.Deputy1VacationDays;
+    var deputy2 = Model.Deputy2VacationDays;
+
+    List<int> availableYears = Model.AvailableYears.Select(x => int.Parse(x.Text)).ToList();
+
+    int numberOfSelectedWorkingDays = 0;
+
+    string format = "dd.MM.yyyy HH:mm:ss";
+
+    List<DateTime> listOfSelectedDays = new();
+
+    if (Model.VacationPlan.VacationDays != "")
+    {
+        listOfSelectedDays = Model.VacationPlan.VacationDays.Split(',')
+        .Select(day => DateTime.ParseExact(day, format, CultureInfo.InvariantCulture))
+        .ToList();
+    }
+
+    List<DateTime> listOfHolidayScheduleDays = new();
+
+    if (Model.HolidaySchedule != "")
+    {
+        listOfHolidayScheduleDays = Model.HolidaySchedule.Split(',')
+        .Select(day => DateTime.ParseExact(day, format, CultureInfo.InvariantCulture))
+        .ToList();
+    }
+
+    if (listOfSelectedDays is not null)
+    {
+        List<DateTime> listOfSelectedWorkingDays = new();
+
+        if (listOfHolidayScheduleDays is not null)
+        {
+            listOfSelectedWorkingDays = listOfSelectedDays
+            .Where(day => day.DayOfWeek != DayOfWeek.Saturday && day.DayOfWeek != DayOfWeek.Sunday && !listOfHolidayScheduleDays.Contains(day))
+            .ToList();
+        }
+        else
+        {
+            listOfSelectedWorkingDays = listOfSelectedDays
+            .Where(day => day.DayOfWeek != DayOfWeek.Saturday && day.DayOfWeek != DayOfWeek.Sunday)
+            .ToList();
+        }
+
+        numberOfSelectedWorkingDays = listOfSelectedWorkingDays.Count();
+    }
+}
+
+<div id="overlay"></div>
+
+<div id="plan-page-container">
+
+<form id="form" method="post" asp-action="Update">
+    <input asp-for="VacationPlan.Id" readonly hidden />
+    <input asp-for="VacationPlan.ApplicationUserId" readonly hidden />
+    <input asp-for="VacationPlan.Year" readonly hidden></input>
+    <textarea id="vacation-days" asp-for="VacationPlan.VacationDays" hidden></textarea>
+
+    <div>
+        <div id="plan-menu-button-on" class="btn btn-secondary"><i class="bi bi-chevron-double-right"></i></div>
+    </div>
+    
+    <div id="plan-menu" data-state="on">
+        <div class="plan-menu-box">
+            <div id="plan-menu-button-box">
+                <div id="plan-menu-button-off" class="btn btn-secondary"><i class="bi bi-chevron-double-left"></i></div>
+            </div>
+            <div @(isAdmin ? "" : Html.Raw("class=\"d-none\""))>
+                <div class="mb-3">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-control" readonly/>
+                </div>
+            </div>
+            
+            <div @(isAdmin ? "" : Html.Raw("class=\"d-none\""))>
+                <div class="mb-3">
+                    <label asp-for="VacationPlan.Year"></label>
+                    <input asp-for="VacationPlan.Year" class="form-control" readonly />
+                    </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="VacationPlan.MaxVacationDaysNumber"></label>
+                <input asp-for="VacationPlan.MaxVacationDaysNumber" class="form-control" />
+                <span asp-validation-for="VacationPlan.MaxVacationDaysNumber" class="text-danger"></span>
+                <span id="max-vacation-days-number-alert" class="badge bg-warning mt-2"></span>
+                </div>
+
+                <div class="mb-3">
+                <label asp-for="VacationPlan.VacationDays"></label>
+                <input id="number-of-selected-days" class="form-control" value="@numberOfSelectedWorkingDays" readonly />
+                </div>
+
+            <div class="mb-3">
+                <label><i class="bi bi-person-square purple" style="margin-left: 10px;"></i> &nbsp; Znajomy 1</label>
+                <select asp-for="VacationPlan.Deputy1ApplicationUserId" asp-items="@Model.ApplicationUsersList" class="form-select">
+                    <option value="" selected>-- Wybierz użytkownika --</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                
+                <label><i class="bi bi-person-square azure" style="margin-left: 10px;"></i> &nbsp; Znajomy 2</label>
+                <select asp-for="VacationPlan.Deputy2ApplicationUserId" asp-items="@Model.ApplicationUsersList" class="form-select">
+                    <option value="" selected>-- Wybierz użytkownika --</option>
+                </select>
+            </div>
+
+        </div>
+
+
+        <div class="plan-menu-box mt-2">
+            <h5 class="mb-3">Lista użytkowników, z którymi współdzielony jest plan urlopowy</h5>
+            <div class="card py-3 px-4 mb-3">
+                @if (Model.AcceptedSharedVacationPlansVM.Count == 0)
+                {
+                    <div class="row mb-3">
+                        <p class="my-0">Obecnie nie współdzielisz tego planu urlopowego z żadnym użytkownikiem.</p>
+                    </div>
+                }
+                else 
+                {
+                    <div class="row mb-3 header-line">
+                        <div class="col-8 pb-2">
+                            <p class="my-0"><strong>Nazwa użytkownika</strong></p>
+                        </div>
+                        <div class="col-4">
+                            <p></p>
+                        </div>
+                    </div>
+                    @foreach (var sharedVacationPlanVM in Model.AcceptedSharedVacationPlansVM)
+                    {
+                        <div class="row mb-4">
+                            <div class="col-8 my-auto">
+                                <p class="my-0 text-primary">@sharedVacationPlanVM.AcceptedShareApplicationUsername</p>
+                            </div>
+                            <div class="col-4 px-0 my-auto text-end">
+                                <a onclick=deleteItem('/Customer/SharedVacationPlan/DeleteAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-danger"><i class="bi bi-trash3"></i></a>
+                            </div>
+                        </div>
+                    }
+                }
+                    
+                    
+            </div>
+
+            <div class="mb-3">
+                    <a onclick="createSharedVacationPlan()" class="btn btn-primary">Wyślij zaproszenie</a>
+            </div>
+        </div>
+
+
+        <div class="plan-menu-box mt-2">
+            <h5 class="mb-3">Lista otrzymanych zaproszeń</h5>
+            <div class="card py-3 px-4 mb-3">
+                @if (Model.ReceivedSharedVacationPlansVM.Count == 0)
+                {
+                    <div class="row mb-3">
+                        <p class="my-0">Brak otrzymanych zaproszeń.</p>
+                    </div>
+                }
+                else 
+                {
+                    <div class="row mb-3 header-line">
+                        <div class="col-7 pb-2">
+                            <p class="my-0"><strong>Nazwa użytkownika</strong></p>
+                        </div>
+                        <div class="col-5">
+                            <p></p>
+                        </div>
+                    </div>
+                    @foreach (var sharedVacationPlanVM in Model.ReceivedSharedVacationPlansVM)
+                    {
+                        
+                        <div class="row mb-4">
+                            <div class="col-7 my-auto">
+                                <p class="my-0 text-primary">@sharedVacationPlanVM.SenderApplicationUsername</p>
+                            </div>
+                            <div class="col-5 px-0 my-auto text-end">
+                                <div class="btn-group">
+                                    <a onclick=updateSharedVacationPlan('/Customer/SharedVacationPlan/StatusUpdateAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-success">OK</a>
+                                    <a onclick=deleteItem('/Customer/SharedVacationPlan/DeleteAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-danger"><i class="bi bi-trash3"></i></a>
+                                </div>
+                            </div>
+                        </div>                
+                    }
+                }
+            </div>
+        </div>
+
+
+        <div class="plan-menu-box mt-2">
+            <h5>Lista wysłanych zaproszeń</h5>
+            <div class="card py-3 px-4 mb-3">
+                @if (Model.SentSharedVacationPlansVM.Count == 0)
+                {
+                    <div class="row mb-3">
+                        <p class="my-0">Brak wysłanych zaproszeń.</p>
+                    </div>
+                }
+                else 
+                {
+                    <div class="row mb-3 header-line">
+                        <div class="col-8 pb-2">
+                            <p class="my-0"><strong>Nazwa użytkownika</strong></p>
+                        </div>
+                        <div class="col-4">
+                            <p></p>
+                        </div>
+                    </div>
+                    @foreach (var sharedVacationPlanVM in Model.SentSharedVacationPlansVM)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-8 my-auto">
+                                <p class="my-0 text-primary">@sharedVacationPlanVM.ReceiverApplicationUsername</p>
+                            </div>
+                            <div class="col-4 px-0 my-auto text-end">
+                                <a onclick=deleteItem('/Customer/SharedVacationPlan/DeleteAPI/@sharedVacationPlanVM.SharedVacationPlan.Id') class="btn btn-danger"><i class="bi bi-trash3"></i></a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="row mb-2" style="height: 60px;">
+        <div class="col-11 col-md-6 my-auto">
+            <h1 class="text-primary my-0" style="padding-top: 12px;">Plan na @Model.VacationPlan.Year rok</h1>
+        </div>
+
+        <div class="col-1 col-md-6">
+            <div class="vp-buttons">
+                <div class="vp-buttons-flex">
+                    <button type="submit" id="update-button" class="btn btn-primary position-static" style="width: 150px; margin-right: 25px;">Zapisz</button>
+                    <a onClick=deleteItem('/Customer/VacationPlan/DeleteAPI/@Model.VacationPlan.Id') class="btn btn-danger position-static"><i class="bi bi-trash3"></i> &nbsp; Usuń</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @if (Model.VacationPlan.Year != 0)
+    {
+        @for (var month = 1; month <= 12; month++)
+        {
+            // Ustaw datę początkową na pierwszy dzień bieżącego miesiąca
+            var monthStartDate = new DateTime(startDate.Year, month, 1);
+
+            // Ustaw datę końcową na ostatni dzień bieżącego miesiąca
+            var monthEndDate = monthStartDate.AddMonths(1).AddDays(-1);
+
+            if (month == 1 || month == 4 || month == 7 || month == 10)
+            {
+                @:<div class="row">
+            }
+            <div class="col-xl-12 col-xxl-4">
+            <div class="card month my-3">
+            <div class="card-header">
+                <h2 class="my-0">@monthStartDate.ToString("MMMM")</h2>
+            </div>
+            <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><div class="cell">Pn</div></th>
+                        <th><div class="cell">Wt</div></th>
+                        <th><div class="cell">Śr</div></th>
+                        <th><div class="cell">Cz</div></th>
+                        <th><div class="cell">Pt</div></th>
+                        <th><div class="cell">So</div></th>
+                        <th><div class="cell">Nd</div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div>
+                    @if (monthStartDate.DayOfWeek != DayOfWeek.Monday)
+                    {
+                        @:<tr>
+                        int numberOfDayOfWeek = (int)monthStartDate.DayOfWeek == 0 ? 7 : (int)monthStartDate.DayOfWeek;  // Changes the value for Sunday from 0 to 7
+                        @for (var i = 1; i < numberOfDayOfWeek; i++)
+                        {
+                            <td></td>
+                        }
+                    }
+
+                    @for (var day = monthStartDate; day <= monthEndDate; day = day.AddDays(1))
+                    {
+                        @if (day.DayOfWeek == DayOfWeek.Monday)
+                        {
+                            @:<tr>
+                        }
+                                <td>
+                                <div class="cell @HolidayWeekendBgColor(day)">
+                                <div class="cell-input-label">
+                                @if (Model.VacationPlan.VacationDays.Contains(day.ToString()))
+                                {
+                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@day" checked>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@day">
+                                }
+                                
+                                    <label for="@day.ToShortDateString()">@day.Day</label><br>
+                                </div>
+
+                                    <span class="@DeputyColor(1)">@IsDeputyIcon(deputy1, day)</span>
+                                    <span class="@DeputyColor(2)">@IsDeputyIcon(deputy2, day)</span>
+                                </div>
+                                </td>
+
+                        @if (day.DayOfWeek == DayOfWeek.Sunday && day != monthEndDate)
+                        {
+                            @:</tr>
+                        }
+                    }
+
+                    @if (monthEndDate.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        @for (var i = (int)monthEndDate.DayOfWeek + 1; i <= 7; i++)
+                        {
+                            <td></td>
+                        }
+                        @:</tr>
+                    }
+                    </div>
+                </tbody>
+            </table>
+            </div>
+            </div>
+            </div>
+            if (month == 3 || month == 6 || month == 9 || month == 12)
+            {
+                @:</div>
+            }
+        }
+    }
+</form>
+
+</div>
+
+<form id="create-shared-vacation-plan" method="post" asp-area="Customer" asp-controller="SharedVacationPlan" asp-action="Create" class="d-none">
+    <input type="text" id="vacationPlanId" name="vacationPlanId" value="@Model.VacationPlan.Id" hidden />
+    <input type="text" required id="invitedUserNameOrEmail" name="invitedUserNameOrEmail" class="form-control" />
+</form>
+
+
+@functions 
+{
+    string HolidayWeekendInputName(DateTime day)
+    {
+        if (Model.HolidaySchedule.Contains(day.ToString()))
+        {
+            return "holiday";
+        }
+
+        if (day.DayOfWeek == DayOfWeek.Saturday)
+        {
+            return "saturday";
+        }
+
+        if (day.DayOfWeek == DayOfWeek.Sunday)
+        {
+            return "sunday";
+        }
+        return "day";
+    }
+
+    string HolidayWeekendBgColor(DateTime day)
+    {
+        // Święta (dni ustawowo wolne od pracy)
+        if (Model.HolidaySchedule.Contains(day.ToString()))
+        {
+            return "holiday-bg-color";
+        }
+
+        if (day.DayOfWeek == DayOfWeek.Saturday)
+        {
+            return "saturday-bg-color";
+        }
+
+        if (day.DayOfWeek == DayOfWeek.Sunday)
+        {
+            return "sunday-bg-color";
+        }
+        return "day-bg-color";
+    }
+
+    string DeputyColor(int deputyNumber)
+    {
+        if (deputyNumber == 1)
+        {
+            return "purple";
+        }
+        return "azure";
+    }
+
+    IHtmlContent IsDeputyIcon(string deputy, DateTime day)
+    {
+        if (deputy.Contains(day.ToString()))
+        {
+            return Html.Raw("<i class=\"bi bi-person-square\"></i>");
+        }
+        return null;
+    }
+}
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/vacationPlanUpdate.js"></script>
+}

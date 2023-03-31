@@ -32,7 +32,7 @@ bld/
 [Ll]ogs/
 
 # Ignore Publish Profiles
-[Pp]roperties/PublishProfiles/
+YearlyVacationPlan/RPUWeb/Properties/PublishProfiles/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/

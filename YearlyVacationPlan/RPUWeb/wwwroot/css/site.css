@@ -1,0 +1,512 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.main-and-fotter {
+    min-height: 100% !important;
+    display: flex;
+    flex-direction: column;
+}
+
+/* START - Bootstrap - custome */
+.badge {
+    text-align: left; 
+    white-space: pre-wrap;
+    line-height: 1.3em;
+}
+/* END - Bootstrap - custome */
+
+#toast-container > div {
+    opacity: 1;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    filter: alpha(opacity=100);
+}
+
+.main-menu-separator {
+    display: none;
+}
+
+#HomeIndex .card {
+    background-color: rgb(233 239 247 / 75%);
+    transform: scale(0);
+    opacity: 0;
+    animation-name: card;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#HomeIndex .card-1 {
+    animation-delay: 0s;
+}
+
+#HomeIndex .card-2 {
+    animation-delay: 0.15s;
+}
+
+#HomeIndex .card-3 {
+    animation-delay: 0.3s;
+}
+
+@keyframes card {
+    from {
+        transform: scale(0.01);
+        opacity: 0.01;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#HomeHelp .topic-list {
+    margin-bottom: 20px;
+}
+
+#HomeHelp .topic-list a {
+    text-decoration: none;
+}
+
+#HomeHelp ol {
+    padding-left: 1rem;
+}
+
+#HomeHelp ol li {
+    margin-bottom: 10px;
+}
+
+#HomeHelp .image-list li {
+    margin-bottom: 45px;
+}
+
+#HomeHelp .image-list img {
+    max-width: 70vw;
+    border: 2px dashed #bababa;
+}
+
+.navbar {
+    padding: 1rem 0.25rem;
+    border-bottom: 1px solid rgba(55, 94, 148, 0.1);
+    box-shadow: 0px 2px 5px rgb(0 0 0 / 15%)
+}
+
+#VacationPlanUpdate .navbar {
+    padding: 1rem 0.25rem 1rem 128px;
+}
+
+.main-flex {
+    flex: 1;
+    margin-top: 8rem;
+}
+
+main {
+    margin: 0.25rem 0.25rem 2rem 0.25rem;
+}
+
+#VacationPlanUpdate main {
+    margin: 0.25rem 0 2rem 0;
+}
+
+footer {
+    padding: 2rem 0.25rem;
+}
+
+footer a, footer a:hover {
+    color: #adb6d3;
+}
+
+#plan-menu {
+    position: fixed;
+    z-index: 1031;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow: auto;
+    width: 100vw;
+    background-color: #d9e3f1;
+    box-shadow: 5px 5px 10px rgb(55 94 148 / 20%), -5px -5px 10px rgb(255 255 255 / 40%);
+    transition: 0.5s;
+}
+
+.plan-menu-box {
+    padding: 0 24px 24px;
+}
+
+.plan-menu-box:last-child {
+    padding: 0 24px 48px;
+}
+
+#plan-menu-button-on {
+    position: fixed;
+    z-index: 1031;
+    top: 23px;
+    left: 39px;
+    font-size: 1.8rem;
+    padding: 1px 15px 1px;
+    color: #fff;
+}
+
+#plan-menu-button-off {
+    font-size: 1.8rem;
+    padding: 1px 15px 1px;
+    color: #fff;
+}
+
+
+#plan-menu-button-box {
+    width: 100%;
+    height: 90px;
+    padding-top: 23px;
+    padding-left: 15px;
+    border-bottom: 1px solid #ced8e5;
+    margin-bottom: 25px;
+    background-color: #d9e3f1;
+    transition: all 0.5s ease-in-out;
+}
+
+#overlay {
+    position: fixed;
+    z-index: 1030;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.25);
+    pointer-events: auto;
+    transition: background-color 0.5s ease-in-out;
+}
+
+.header-line {
+    border-bottom: 1px solid rgba(55, 94, 148, 0.1);
+}
+
+.holiday-bg-color {
+    background-color: rgba(255, 0, 0, 0.2) !important;
+}
+
+.saturday-bg-color {
+    background-color: rgba(255, 145, 0, 0.1) !important;
+}
+
+.sunday-bg-color {
+    background-color: rgba(255, 68, 0, 0.1) !important;
+}
+
+.day-bg-color {
+    background-color: #d9e3f1 !important;
+}
+
+.month {
+    position: static;
+}
+
+.month .card-body {
+    padding: 14px 8px 0;
+}
+
+.month .table {
+    font-size: 0.7rem;
+}
+
+.month tr th {
+    padding: 0;
+}
+
+.month tr td {
+    padding: 0px 3px 7px;
+}
+
+.cell {
+    box-shadow: 1px 1px 4px rgb(0 0 0 / 10%), -1px -1px 4px rgb(255 255 255 / 50%);
+    border-radius: 6px;
+    padding: 3px 1px 3px 5px;
+    height: 52px;
+    width: 100%;
+}
+
+.cell-input-label {
+    display: flex;
+    flex-direction: row;
+}
+
+.cell-input-label {
+    padding: 0;
+    margin: 0 0 5px;
+}
+
+.cell-input-label input[type="checkbox"] {
+    padding: 0;
+    width: 11px;
+    margin: 0 4px 0 0;
+}
+
+.purple, .azure {
+    padding: 0;
+    margin: 0;
+    font-size: 0.7rem;
+}
+
+.purple {
+    color: #ab59df;
+}
+
+.azure {
+    color: #5976df;
+}
+
+.month thead tr {
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 10%), -2px -2px 5px rgb(255 255 255 / 50%);
+    border-radius: 6px;
+}
+
+th .cell {
+    box-shadow: none;
+    border-radius: 0;
+    border-right: 1px solid #cbd4e1;
+    padding: 6px 0px;
+    font-size: 0.9rem;
+    text-align: center
+}
+
+.month tbody:before {
+    line-height: 1.2rem;
+    content: ".";
+    color: rgb(0 0 0 / 0%);
+    display: block;
+}
+
+th:last-child .cell {
+    border-right: 0;
+}
+
+.btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+#tblData td {
+    vertical-align: middle;
+}
+
+.navbar #manage {
+    margin-right: 25px;
+}
+
+.navbar #logout {
+    padding: 8px 20px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+
+.vp-buttons {
+    position: fixed;
+    display: flex;
+    bottom: 0;
+    left: 0;
+    background-color: aliceblue;
+    border-top: 1px solid #ced8e5;
+    width: 100%;
+    height: 100px;
+}
+
+.vp-buttons-flex {
+    margin: auto !important;
+}
+
+#VacationPlanUpdate footer {
+    margin-bottom: 100px;
+}
+
+#registerForm .form-floating > label {
+    top: -7px;
+}
+
+#account .form-floating > label {
+    padding: 0.6rem 0.4rem;
+}
+
+.form-floating > .form-control:-webkit-autofill, .form-floating > .form-control-plaintext:-webkit-autofill, .form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown), .form-floating > .form-control-plaintext:focus, .form-floating > .form-control-plaintext:not(:placeholder-shown) {
+    padding-top: 6px;
+    padding-bottom: 0;
+}
+
+.lub {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.lub:after, .lub:before {
+    content: "";
+    border-bottom: 1px solid #c2cad7;
+    flex: 1 0 auto;
+    height: 0.5em;
+    margin: 0;
+    padding: 4px;
+}
+
+#cookie-consent {
+    position: fixed;
+    bottom: 20px;
+    z-index: 1050;
+}
+
+#cookie-consent, #cookie-consent a {
+    color: #fff;
+}
+
+#cookie-consent button:hover {
+    color: #fff;
+}
+
+@media screen and (min-width: 768px) {
+    .navbar {
+        padding: 1rem 1rem;
+    }
+    #VacationPlanUpdate .navbar {
+        padding: 1rem 1rem 1rem 128px;
+    }
+    main, #VacationPlanUpdate main {
+        margin: 1rem 1rem 3rem 1rem;
+    }
+    footer {
+        padding: 2rem 1rem;
+    }
+
+    #plan-menu {
+        width: 393px;
+    }
+
+    .month .card-body {
+        padding: 14px 18px 0;
+    }
+
+    .month .table {
+        font-size: 1.1rem;
+    }
+
+    .month tr td {
+        padding: 0px 6px 10px;
+    }
+
+    .cell {
+        padding: 6px 12px;
+        height: 62px;
+    }
+
+    .cell-input-label {
+        padding: 0;
+        margin: 0;
+    }
+
+    .vp-buttons {
+        position: static;
+        display: flex;
+        background-color: transparent;
+        border-top: none;
+        width: unset;
+        height: unset;
+    }
+
+    .vp-buttons-flex {
+        margin: 0 !important;
+        text-align: end !important;
+        flex: auto;
+    }
+
+    #VacationPlanUpdate footer {
+        margin-bottom: 0px;
+    }
+
+    #HomeIndex .main-and-fotter {
+        background-image: url('../images/background-calendar.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 45%;
+        background-position: center;
+    }
+}
+
+@media screen and (min-width: 992px) {
+
+    .navbar #logout {
+        padding: 8px 20px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .main-menu-separator {
+        display: block;
+        padding: var(--bs-nav-link-padding-y) 12px;
+        font-size: var(--bs-nav-link-font-size);
+        font-weight: var(--bs-nav-link-font-weight);
+        color: rgba(255, 255, 255, 0.5);
+    }
+}
+
+    @media screen and (min-width: 1200px) {
+        .navbar {
+            padding: 1rem 2rem;
+        }
+
+        #VacationPlanUpdate .navbar {
+            padding: 1rem 2rem 1rem 128px;
+        }
+
+        main, #VacationPlanUpdate main {
+            margin: 1rem 2rem 3rem 2rem;
+        }
+
+        footer {
+            padding: 2rem;
+        }
+
+        .plan-col {
+            padding: 1rem;
+        }
+
+        .month .table {
+            font-size: 0.92rem;
+        }
+
+        .cell {
+            padding: 5px 11px;
+            height: 52px;
+        }
+    }
+
+    @media screen and (min-width: 1580px) {
+        .navbar {
+            padding: 1rem 2rem;
+        }
+
+        #VacationPlanUpdate .navbar {
+            padding: 1rem 2rem 1rem 128px;
+        }
+
+        main, #VacationPlanUpdate main {
+            margin: 1rem 2rem 3rem 2rem;
+        }
+
+        footer {
+            padding: 2rem;
+        }
+
+        .plan-col {
+            padding: 1rem;
+        }
+
+        .month .table {
+            font-size: 0.72rem;
+        }
+
+        .cell {
+            padding: 6px 8px;
+            height: 46px;
+        }
+    }

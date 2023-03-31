@@ -1,0 +1,91 @@
+﻿@page
+@using RPU.Utility
+@model RegisterModel
+@{
+    ViewData["Title"] = "Rejestracja";
+}
+
+<div class="row pt-4 px-2">
+    <div class="col-12 col-md-6 col-lg-4 mx-auto">
+        <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <input asp-for="Input.Token" type="hidden" id="captcha-token" />
+            <h3 class="text-center mb-3">@ViewData["Title"]</h3>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating py-4">
+                <input asp-for="Input.Username" class="form-control py-4" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Username"></label>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-floating py-4">
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating py-4">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating py-4">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+           
+            @if (User.IsInRole(SD.Role_Admin))
+            {
+                <div class="form-floating py-4">
+                    <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                        <option disabled selected>- Wybierz Rolę -</option>
+                    </select>
+                </div>
+            }     
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-primary py-4">Utwórz konto</button>
+        </form>
+
+        @if (!User.IsInRole(SD.Role_Admin))
+        {
+            <section class="py-5 text-center">
+                <div class="lub">
+                    <span class="px-3">lub</span>
+                </div>
+                
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                            <div>
+                                <p>
+                                    There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                        article
+                                        about setting up this ASP.NET application to support logging in via external services
+                                    </a>.
+                                </p>
+                            </div>
+                    }
+                    else
+                    {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                                        @foreach (var provider in Model.ExternalLogins)
+                                    {
+                                            <button type="submit" id="google-button" class="btn btn-primary" name="provider" value="@provider.Name" title="Rejestracja poprzez konto @provider.DisplayName"><i class="bi bi-google"></i> &nbsp; Kontynuuj z @provider.DisplayName</button>
+                                    }
+                                    </p>
+                                </div>
+                            </form>
+                    }
+                }
+            </section>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <partial name="_GoogleReCaptchaScriptsPartial" />
+    <script src="~/js/embeddedWebviewAlert.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,25 @@
+﻿@using RPU.Utility
+@using Microsoft.Extensions.Options
+
+@inject IOptions<GoogleCaptcha> GoogleCaptcha
+
+<script src="https://www.google.com/recaptcha/api.js?render=@GoogleCaptcha.Value.SiteKey"></script>
+<script>
+    
+    function getToken(){
+        grecaptcha.ready(function () {
+            grecaptcha.execute('@GoogleCaptcha.Value.SiteKey', { action: 'submit' }).then(function (token) {
+                // Add your logic to submit to your backend server here.
+                console.log(token);
+                document.getElementById("captcha-token").value = token;
+            });
+        });
+    }
+    
+    // Wywołaj funkcję getToken co 115 sekund, aby wygenerować nowy token
+    setInterval(getToken, 115000);
+
+    $(function() {
+        getToken();
+    })
+</script>

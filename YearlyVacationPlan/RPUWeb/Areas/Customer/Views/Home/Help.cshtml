@@ -1,0 +1,119 @@
+﻿<div class="container">
+    <div class="row">
+        
+        <h1 class="mb-3">Pomoc</h1>
+
+        <div class="topic-list px-3">
+            <h2>Lista tematów:</h2>
+            <ul>
+                <li><a href="#account-create"><h5>Założenie konta</h5></a></li>
+                <li><a href="#plan-create"><h5>Utworzenie planu urlopu</h5></a></li>
+                <li><a href="#plan-sharing"><h5>Współdzielenie planu urlopu</h5></a></li>
+            </ul>
+        </div>
+
+        <div id="account-create" class="card">
+            <div class="card-header">
+                <h3 style="margin-top: 7px; margin-bottom: 0;">Założenie konta</h3>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Stworzenie własnego rocznego planu urlopu na portalu wymaga posiadania konta.</li>
+                    <li>Proces rejestracji możemy wywołać poprzez kliknięcie na link <a asp-area="Identity" asp-page="/Account/Register">Utwórz konto</a></li>
+                    <li>Po dokonaniu rejestracji na Twoją skrzynkę pocztową wyślemy wiadomość z linkiem umożliwiającym aktywację konta.</li>
+                    <li>Po dokonaniu aktywacji możliwe będzie zalogowanie się na portalu i stworzenie pierwszego rocznego planu urlopu.</li>
+                </ol>
+            </div>
+        </div>
+
+        <div id="plan-create" class="card mt-5">
+            <div class="card-header">
+                <h3 style="margin-top: 7px; margin-bottom: 0;">Utworzenie planu urlopu</h3>
+            </div>
+            <div class="card-body">
+                <ol class="image-list">
+                    <li>
+                        <p>Po zalogowaniu kliknij na przycisk "Utwórz nowy plan".</p>
+                        <img src="~/images/help/create_new_plan_1.png" alt="Zrzut ekranu ze strzałką, która wskazuje przycisk Utwórz nowy plan." />
+                    </li>
+                    
+                    <li>
+                        <p>W okienku, które się pojawi wybierz rok, a następnie kliknij na przycisk "Utwórz".</p>
+                        <img src="~/images/help/create_new_plan_2.png" alt="Zrzut ekranu ze strzałkami, które wskazują pole rok oraz przycisk Utwórz." />
+                    </li>
+                    <li>
+                        <p>Uzupełnij pole "Wymiar urlopu"", które oznacza maksymalną ilość dni urlopu, które możesz zaplanować w danym roku.<br />
+                           W lewym górnym rogu kliknij na przycisk ze strzałkami w lewo, aby zwiąć boczne menu.</p>
+                        <img src="~/images/help/plan_set_max_days.png" alt="Zrzut ekranu ze strzałkami, które wskazują pole Wymiar urlopu oraz przycisk do ukrycia bocznego menu." />
+                    </li>
+                    <li>
+                        <p>Zaznacz w kalendarzu dni, które chcesz oznaczyć jako dni urlopu.<br />
+                           Kliknij na przycisk "Zapisz", aby zapisać zmiany wprowadzone w Twoim planie urlopowym.</p>
+                        <img src="~/images/help/plan_set_days_and_save.png" alt="Zrzut ekranu ze strzałkami, które wskazują zaznaczone pola checkbox na kalendarzu oraz przycisk Zapisz." />
+                    </li>
+                </ol>
+            </div>
+        
+        </div>
+
+        <div id="plan-sharing" class="card mt-5">
+            <div class="card-header">
+                <h3 style="margin-top: 7px; margin-bottom: 0;">Współdzielenie planu urlopu</h3>
+            </div>
+            <div class="card-body">
+                <ol class="image-list">
+                    <li>
+                        <p>Po zalogowaniu kliknij na przycisk "Edytuj" przy planie, który chcesz współdzielić.</p>
+                        <img src="~/images/help/plan-sharing/edit-plan.png" alt="Zrzut ekranu ze strzałką, która wskazuje przycisk Edytuj." />
+                    </li>
+
+                    <li>
+                        <p>Otworzy się strona z Twoim planem. Kliknij na przycisk "Wyślij zaproszenie".</p>
+                        <img src="~/images/help/plan-sharing/send-invite-1.png" alt="Zrzut ekranu ze strzałką, która wskazuje przycisk Wyślij zaproszenie." />
+                    </li>
+                    <li>
+                        <p>
+                            W okienku, które się pojawi wprowadź nazwę użytkownika lub adres email znajomego, do którego chcesz wysłać zaproszenie do współdzielenia planu na wybrany rok. Twój znajomy musi posiadać konto na portalu oraz plan urlopowy na wybrany rok.<br />
+                            Następnie kliknij na przycisk "Wyślij".<br />
+                            Pamiętaj, że użytkownik, do którego wyślesz zaproszenie, także będzie miał wgląd do Twojego planu na wybrany rok. Oczywiście w każdym momencie będziesz miał możliwość anulowania współdzielenia, poprzez wybranie odpowiedniej opcji w menu bocznym w trakcie edycji wybranego planu urlopu.
+                        </p>
+                        <img src="~/images/help/plan-sharing/send-invite-2.png" alt="Zrzut ekranu ze strzałkami, które wskazują pole Nazwa użytkownika / email oraz przycisk Wyślij." />
+                    </li>
+                    <li>
+                        <p>
+                            W celu akceptacji zaproszenia, Twój znajomy powinien zalogować się na portalu.<br />
+                            Po zalogowaniu powinien rozwinąć górne menu poprzez kliknięcie na przycisk "hamburgera" w prawym górnym menu, a następnie kliknąć na "Oczekujące zaproszenia".
+                        </p>
+                        <img src="~/images/help/plan-sharing/accept-invite-1.png" alt="Zrzut ekranu ze strzałkami, które wskazują przycisk hamburgera oraz link Oczekujące zaproszenia." />
+                    </li>
+                    <li>
+                        <p>
+                            Na liście oczekujących zaproszeń, Twój znajomy powinien kliknąć na przycisk "Zaakceptuj" przy zaproszeniu, które od Ciebie otrzymał.<br />
+                        </p>
+                        <img src="~/images/help/plan-sharing/accept-invite-2.png" alt="Zrzut ekranu ze strzałką, która wskazuje przycisk Zaakceptuj." />
+                    </li>
+                    <li>
+                        <p>
+                            Kiedy Twój znajomy zaakceptuje Twoje zaproszenie na wybrany rok, odśwież stronę z Twoim planem urlopowym, kliknij na pole "Znajomy 1" lub "Znajomy 2". Z rozwijalnej listy będziesz mógł wybrać znajomego, który zaakceptował Twoje zaproszenie.<br />
+                            Następnie w lewym górnym rogu kliknij na przycisk ze strzałkami w lewo, aby zwiąć boczne menu.
+                        </p>
+                        <img src="~/images/help/plan-sharing/set-friend.png" alt="Zrzut ekranu ze strzałkami, które wskazują pole Znajomy 1 oraz przycisk do ukrycia bocznego menu." />
+                    </li>
+                    <li>
+                        <p>
+                           Kliknij na przycisk "Zapisz", aby zapisać zmiany wprowadzone w Twoim planie urlopowym.<br />
+                        </p>
+                        <img src="~/images/help/plan-sharing/save-plan.png" alt="Zrzut ekranu ze strzałką, która wskazuje przycisk Zapisz." />
+                    </li>
+                    <li>
+                        <p>
+                           Po zapisaniu zmian nastąpi odświeżenie strony. Od tego momentu dni urlopowe znajomego będą oznaczone ikonką "portretu".<br />
+                        </p>
+                        <img src="~/images/help/plan-sharing/plan-sharing-result.png" alt="Zrzut ekranu ze strzałką, która na dni kalendarza ozanaczone ikonką portretu." />
+                    </li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
