@@ -23,14 +23,14 @@
 
     int numberOfSelectedWorkingDays = 0;
 
-    string format = "dd.MM.yyyy HH:mm:ss";
+    //string format = "dd.MM.yyyy HH:mm:ss";
 
     List<DateTime> listOfSelectedDays = new();
 
     if (Model.VacationPlan.VacationDays != "")
     {
         listOfSelectedDays = Model.VacationPlan.VacationDays.Split(',')
-        .Select(day => DateTime.ParseExact(day, format, CultureInfo.InvariantCulture))
+        .Select(day => DateTime.ParseExact(day, SD.VacationDayDateFormat, CultureInfo.InvariantCulture))
         .ToList();
     }
 
@@ -39,7 +39,7 @@
     if (Model.HolidaySchedule != "")
     {
         listOfHolidayScheduleDays = Model.HolidaySchedule.Split(',')
-        .Select(day => DateTime.ParseExact(day, format, CultureInfo.InvariantCulture))
+        .Select(day => DateTime.ParseExact(day, SD.VacationDayDateFormat, CultureInfo.InvariantCulture))
         .ToList();
     }
 
@@ -306,6 +306,8 @@
 
                     @for (var day = monthStartDate; day <= monthEndDate; day = day.AddDays(1))
                     {
+                        var dayString = day.ToString(SD.VacationDayDateFormat);
+
                         @if (day.DayOfWeek == DayOfWeek.Monday)
                         {
                             @:<tr>
@@ -313,13 +315,13 @@
                                 <td>
                                 <div class="cell @HolidayWeekendBgColor(day)">
                                 <div class="cell-input-label">
-                                @if (Model.VacationPlan.VacationDays.Contains(day.ToString()))
+                                @if (Model.VacationPlan.VacationDays.Contains(dayString))
                                 {
-                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@day" checked>
+                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@dayString" checked>
                                 }
                                 else
                                 {
-                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@day">
+                                    <input type="checkbox" id="@day.ToShortDateString()" name="@HolidayWeekendInputName(day)" value="@dayString">
                                 }
                                 
                                     <label for="@day.ToShortDateString()">@day.Day</label><br>
@@ -370,7 +372,7 @@
 {
     string HolidayWeekendInputName(DateTime day)
     {
-        if (Model.HolidaySchedule.Contains(day.ToString()))
+        if (Model.HolidaySchedule.Contains(day.ToString(SD.VacationDayDateFormat)))
         {
             return "holiday";
         }
@@ -390,7 +392,7 @@
     string HolidayWeekendBgColor(DateTime day)
     {
         // Święta (dni ustawowo wolne od pracy)
-        if (Model.HolidaySchedule.Contains(day.ToString()))
+        if (Model.HolidaySchedule.Contains(day.ToString(SD.VacationDayDateFormat)))
         {
             return "holiday-bg-color";
         }
@@ -418,7 +420,7 @@
 
     IHtmlContent IsDeputyIcon(string deputy, DateTime day)
     {
-        if (deputy.Contains(day.ToString()))
+        if (deputy.Contains(day.ToString(SD.VacationDayDateFormat)))
         {
             return Html.Raw("<i class=\"bi bi-person-square\"></i>");
         }

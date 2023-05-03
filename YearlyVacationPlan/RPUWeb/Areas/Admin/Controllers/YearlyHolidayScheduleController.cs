@@ -22,6 +22,8 @@ public class YearlyHolidayScheduleController : Controller
     {
         IEnumerable<YearlyHolidaySchedule> objYearlyHolidayScheduleList = _unitOfWork.YearlyHolidaySchedule.GetAll();
 
+        ViewBag.CurrentCulture = CultureInfo.CurrentCulture;
+
         return View(objYearlyHolidayScheduleList);
     }
 
@@ -45,10 +47,9 @@ public class YearlyHolidayScheduleController : Controller
             if (yearlyHolidayScheduleVM.YearlyHolidaySchedule.HolidaySchedule is not null)
             {
                 List<string> YearlyHolidayScheduleDaysListString = new List<string>(yearlyHolidayScheduleVM.YearlyHolidaySchedule.HolidaySchedule.Split(','));
-                string format = "dd.MM.yyyy HH:mm:ss";
                 foreach (var dateString in YearlyHolidayScheduleDaysListString)
                 {
-                    DateTime date = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+                    DateTime date = DateTime.ParseExact(dateString, SD.VacationDayDateFormat, CultureInfo.InvariantCulture);
                     yearlyHolidayScheduleVM.YearlyHolidayScheduleDaysList.Add(date);
                 }
             }

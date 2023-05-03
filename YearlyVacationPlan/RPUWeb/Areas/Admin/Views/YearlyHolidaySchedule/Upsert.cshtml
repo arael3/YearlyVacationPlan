@@ -86,6 +86,8 @@
 
                     @for (var day = monthStartDate; day <= monthEndDate; day = day.AddDays(1))
                 {
+                    var dayString = day.ToString(SD.VacationDayDateFormat);
+                    
                     if (day.DayOfWeek == DayOfWeek.Monday)
                     {
                             @:<tr>
@@ -96,14 +98,14 @@
                         if (Model.YearlyHolidayScheduleDaysList.Contains(day))
                         {
                                 <td>
-                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@day" checked>
+                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@dayString" checked>
                                     <label for="@day.Day">@day.Day</label>
                                 </td>
                         }
                         else
                         {
                                 <td>
-                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@day">
+                                    <input type="checkbox" id="@day.Day" name="@day.Day" value="@dayString">
                                     <label for="@day.Day">@day.Day</label>
                                 </td>
                         }
@@ -111,7 +113,7 @@
                     else
                     {
                             <td>
-                                <input type="checkbox" id="@day.Day" name="@day.Day" value="@day">
+                                <input type="checkbox" id="@day.Day" name="@day.Day" value="@dayString">
                                 <label for="@day.Day">@day.Day</label>
                             </td>
                     }

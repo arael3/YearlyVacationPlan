@@ -272,7 +272,7 @@ public class VacationPlanController : Controller
 
     private VacationPlanVM UpdateOperations(int? id, VacationPlanVM vacationPlanVM)
     {
-        string format = "dd.MM.yyyy HH:mm:ss";
+        //string format = "dd.MM.yyyy HH:mm:ss";
 
         if (vacationPlanVM.VacationPlan.VacationDays is null)
         {

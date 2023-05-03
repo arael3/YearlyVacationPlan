@@ -9,24 +9,23 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Microsoft.AspNetCore.Localization;
-using Stripe;
 using System.Globalization;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.ComponentModel;
+using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using Newtonsoft.Json.Converters;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    options.DefaultRequestCulture = new RequestCulture("pl-PL", "pl-PL");
-    options.SupportedCultures = new[] { new CultureInfo("pl-PL", false) };
-    options.SupportedUICultures = new[] { new CultureInfo("pl-PL", false) };
-});
 
 builder.Services.Configure<GoogleCaptcha>(builder.Configuration.GetSection("GoogleReCaptcha"));
 builder.Services.Configure<SmtpAccount>(builder.Configuration.GetSection("Smtp"));
@@ -38,7 +37,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-
+//builder.Services.AddDefaultIdentity<IdentityUser>()
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
@@ -82,10 +81,19 @@ builder.Services.AddLogging(loggingBuilder =>
 builder.Services.AddScoped<ISendEmailJob, SendEmailJob>();
 builder.Services.AddHostedService<Scheduler>();
 
-
 var app = builder.Build();
 
-app.UseRequestLocalization();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
+app.UseRequestLocalization(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("pl-PL", "pl-PL");
+    options.SupportedCultures = new[] { new CultureInfo("pl-PL", false) };
+    options.SupportedUICultures = new[] { new CultureInfo("pl-PL", false) };
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -95,7 +103,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 app.UseCookiePolicy();
 
@@ -111,6 +120,7 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+//pattern: "{area=Customer}/{controller=Calendar}/{action=Index}");
 
 app.Run();
 
